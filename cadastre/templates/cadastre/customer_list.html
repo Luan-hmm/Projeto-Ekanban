@@ -1,0 +1,89 @@
+{% extends "cadastre/base.html" %}
+
+{% block content %}
+<h1 class="display-8">Clientes</h1>
+
+<form method="GET" action=".">
+    <div class="form-row">
+        <div class="form-group col-12">
+            <div class="input-group">
+                <input class="form-control py-2 border-right-0 border" type="search" name="code_contains" placeholder="Codigo" />
+                <span class="input-group-append">
+                    <div class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+            </div>
+        </div>        
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-12">
+            <div class="input-group">
+                <input class="form-control py-2 border-right-0 border" type="search" name="company_contains" placeholder="Razão Social" />
+                <span class="input-group-append">
+                    <div class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+            </div>
+        </div>        
+    </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+         <select name="situation_contains" class="form-control">
+            <option value="" selected>Situação</option>
+            <option value="1">Ativo</option>
+            <option value="2">Baixado</option>
+            <option value="3">Transferido</option>
+        </select>
+    </div>
+</div>
+    <button type="submit" class="btn btn-primary">Procurar</button>
+</form>
+
+<table class="table table-borderless">
+    <thead class="border-botton front -weight-bold">
+        <tr>
+            <td>Código</td>
+            <td>Razão Social</td>
+            <td>CNPJ</td>
+            <td>
+                <a href="{% url 'customer_insert' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Adiciona Novo
+                </a>
+                <a href="{% url 'customer_download' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Export CSV
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in customer_list %}
+        <tr>
+            <td>{{customer.code}}</td>
+            <td>{{customer.company}}</td>
+            <td>{{customer.cnpj}}</td>
+            <td>
+                <a href="{% url 'customer_update' customer.id %}" class="btn text-secondary px-0">
+                    <i class="far fa-edit fa-lg"></i>
+                </a>
+                <form action="{% url 'customer_delete' customer.id %}" method="post" class='d-inline'>
+                    {% csrf_token %}
+                    <button type="submit" class="btn">
+                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                    </button>
+                </form>
+                <a href="{% url 'adress_list' customer.id %}" class="btn btn-outline-success">
+                    Endereços
+                </a>
+
+                <a href="{% url 'contact_list' customer.id %}" class="btn btn-outline-success">
+                    Contatos
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

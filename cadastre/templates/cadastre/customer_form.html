@@ -1,0 +1,29 @@
+{% extends "cadastre/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<form action="" method="post" autocomplete="off">
+    <h1 class="display-8">{{title}}</h1>
+    {% if error %}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {% endif %}
+    {% csrf_token %}
+    {{form|crispy}}
+    <div class="class row">
+        <div class="col-md-8">
+            <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fas fa-database"></i>
+                Salvar</button>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'customer_list' %}" class="btn btn-secondary btn-block btn-lg">
+                <i class="fas fa-stream"></i> Volta para lista
+            </a>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

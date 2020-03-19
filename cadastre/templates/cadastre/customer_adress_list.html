@@ -1,0 +1,52 @@
+{% extends "cadastre/base.html" %}
+
+{% block content %}
+<h1 class="display-8">Cliente: {{customer.company}}</h1>
+<h4>Endereço</h4>
+<table class="table table-borderless">
+    <thead class="border-botton front -weight-bold">
+        <tr>
+            <td>Rua</td>
+            <td>Número</td>
+            <td>Complemento</td>
+            <td>Bairro</td>
+            <td>Cidade</td>
+            <td>Estado</td>
+            <td>CEP</td>
+            <td>
+                <a href="{% url 'adress_insert' idCustomer %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Adiciona Novo
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for adress in customer_adress_list %}
+        <tr>
+            <td>{{adress.street}}</td>
+            <td>{{adress.number}}</td>
+            <td>{{adress.complement}}</td>
+            <td>{{adress.neighborhood}}</td>
+            <td>{{adress.city}}</td>
+            <td>{{adress.estate}}</td>
+            <td>{{adress.zipcode}}</td>
+            <td>                
+                <a href="{% url 'adress_update' adress.id adress.customer.id %}" class="btn text-secondary px-0">
+                    <i class="far fa-edit fa-lg"></i>
+                </a>
+                <form action="{% url 'adress_delete' adress.id %}" method="post" class='d-inline'>
+                    {% csrf_token %}
+                    <button type="submit" class="btn">
+                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        
+    </tbody>
+</table>
+<a href="{% url 'customer_list' %}" class="btn btn-secondary btn-block btn-lg">
+    <i class="fas fa-stream"></i> Volta para lista
+</a>
+{% endblock content %}
